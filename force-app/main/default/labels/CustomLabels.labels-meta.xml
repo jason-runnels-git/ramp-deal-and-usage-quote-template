@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>RlmDocGenTemplateName</fullName>
+        <categories>DocGen</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Name of the DocumentTemplate record used for ramp/usage proposal generation</shortDescription>
+        <value>RLM Ramp Deal Proposal</value>
+    </labels>
+</CustomLabels>

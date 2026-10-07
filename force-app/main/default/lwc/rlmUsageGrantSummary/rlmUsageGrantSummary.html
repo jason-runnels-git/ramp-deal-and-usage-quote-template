@@ -1,0 +1,58 @@
+<template>
+    <template lwc:if={isHidden}></template>
+    <template lwc:else>
+        <template lwc:if={isLoading}>
+            <div class="wallet-bar">
+                <lightning-spinner alternative-text="Loading" size="small" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+
+        <template lwc:if={hasRows}>
+            <div class="wallet-bar">
+                <div class="wallet-left">
+                    <span class="wallet-title">Usage Wallet Preview</span>
+                    <span class="wallet-sentence">
+                        {collapsedProductName}:&nbsp;
+                        <span class="grant-green">{collapsedGrant} {collapsedResourceName}</span>
+                        &nbsp;{collapsedPeriodFree}&nbsp;
+                        {collapsedOveragePrefix}<span class="overage-orange">{collapsedOverage}</span>
+                    </span>
+                </div>
+                <div class="wallet-right">
+                    <button class="wallet-btn" onclick={handleRefresh}>
+                        <lightning-icon icon-name="utility:refresh" size="xx-small" alternative-text="Refresh"></lightning-icon>
+                        Refresh
+                    </button>
+                    <button class="wallet-btn-icon" onclick={handleToggle} title={toggleLabel}>
+                        <lightning-icon icon-name={toggleIcon} size="xx-small" alternative-text={toggleLabel}></lightning-icon>
+                    </button>
+                </div>
+            </div>
+
+            <template lwc:if={isExpanded}>
+                <div class="wallet-expanded">
+                    <table class="wallet-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Wallet Grant at Activation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={rows} for:item="row">
+                                <tr key={row.productId}>
+                                    <td>{row.productName}</td>
+                                    <td>
+                                        <span class="grant-green">{row.grantFormatted} {row.resourceName}</span>
+                                        &nbsp;{row.periodFree}&nbsp;
+                                        {row.overagePrefix}<span class="overage-orange">{row.overageFormatted}</span>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+        </template>
+    </template>
+</template>

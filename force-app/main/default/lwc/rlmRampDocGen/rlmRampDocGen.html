@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Ramp Quote Proposal">
+        <div class="slds-p-around_medium">
+            <template if:true={isGenerating}>
+                <lightning-spinner alternative-text="Generating proposal..." size="small"></lightning-spinner>
+                <p class="slds-m-top_small slds-text-color_weak">Generating proposal, please wait...</p>
+            </template>
+            <template if:false={isGenerating}>
+                <lightning-button
+                    label="Generate Ramp Proposal"
+                    title="Generate Ramp Proposal"
+                    icon-name="utility:page"
+                    variant="brand"
+                    onclick={handleGenerate}
+                    disabled={isGenerating}>
+                </lightning-button>
+            </template>
+            <template if:true={successMessage}>
+                <div class="slds-notify slds-notify_toast slds-theme_success slds-m-top_small" role="status">
+                    <span class="slds-assistive-text">success</span>
+                    <p>{successMessage}</p>
+                </div>
+            </template>
+            <template if:true={errorMessage}>
+                <div class="slds-notify slds-notify_toast slds-theme_error slds-m-top_small" role="alert">
+                    <p>{errorMessage}</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

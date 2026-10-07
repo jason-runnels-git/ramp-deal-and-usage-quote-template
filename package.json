@@ -1,0 +1,22 @@
+{
+  "name": "rlm-docgen-ramp-usage",
+  "version": "1.0.0",
+  "description": "Salesforce RLM document generation for ramp quotes and usage-based products",
+  "scripts": {
+    "lint": "eslint force-app",
+    "test": "lwc-jest --coverage",
+    "precommit": "lint-staged"
+  },
+  "devDependencies": {
+    "@salesforce/eslint-config-lwc": "^3.5.2",
+    "@salesforce/eslint-plugin-aura": "^2.1.0",
+    "@lwc/eslint-plugin-lwc": "^1.7.3",
+    "eslint": "^9.0.0",
+    "@lwc/jest-preset": "latest",
+    "lint-staged": "^15.0.0",
+    "husky": "^9.0.0"
+  },
+  "lint-staged": {
+    "**/*.{cls,js,html,xml}": ["eslint --fix"]
+  }
+}
