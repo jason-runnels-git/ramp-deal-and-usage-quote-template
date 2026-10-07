@@ -224,6 +224,30 @@ The IP-driven flow (standard "Generate Document" button) collects data declarati
 
 ---
 
+## Design Considerations
+
+### Bundled Products
+
+Doesn't currently support bundled products - use the default template for that use case, or extend this template.
+
+The line item query in `RlmRampTokenAssembler` is a flat query with no filtering or grouping on `ParentQuoteLineItemId`. With bundled products this means:
+
+- All lines render flat - bundle parent and every child component appear as separate rows in the segment table
+- Potential double-counted pricing if both the parent and children carry prices
+- No visual hierarchy - no indentation or grouping to indicate which lines are components of a bundle
+
+To extend for bundles, the right approach depends on how your bundles are priced:
+
+- **Suppress children** - filter to `ParentQuoteLineItemId = null` only, show just the bundle header line
+- **Show hierarchy** - add an `IsBundle`/`IsComponent` flag and `ParentName` to the token data so the template can indent or label components
+- **Show only children** - suppress the parent and show components with individual prices
+
+### Other Usage Models
+
+The usage line logic is built around the **Anchor** usage model (`ProductUsageGrant` with `Status = Active`). Other usage models - such as token-based or pool-based - may require additional configuration. If your usage products don't follow the standard Anchor/grant pattern, the `UsageLines` array for those products will be empty in the generated document and the usage table will not render for them. Extend `assembleTokenData()` to query and map the additional usage model objects as needed.
+
+---
+
 ## Owner
 
 jrunnels@salesforce.com
