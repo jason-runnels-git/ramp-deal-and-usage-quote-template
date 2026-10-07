@@ -1,4 +1,4 @@
-# RLM DocGen - Ramp Quotes & Usage-Based Products
+# RLM DocGen - Ramped Quotes & Usage-Based Products
 
 Salesforce Revenue Cloud (RLM) document generation for ramp quotes and usage-based products. Deploy this SFDX project to add a "Generate Ramp Proposal" Quick Action to your Quote page that produces a formatted PDF proposal using Salesforce Document Generation.
 
@@ -61,6 +61,43 @@ This deploys:
 2. Find `rlmUsageGrantSummary` in the Components panel
 3. Drop it onto the Quote record page layout
 4. Save and Activate
+
+---
+
+## Deploy This Repo with an AI Agent
+
+Deploy this GitHub repo into my Salesforce org.
+
+Repo:            <PASTE GITHUB URL>
+Org:             <alias of my target org>   (this is a <sandbox|dev|dev-edition> org — NOT production)
+Expected Org Id: <optional 00D… — if I give it, assert it matches before deploying>
+Login type:      <production/dev/trial = login.salesforce.com | sandbox = test.salesforce.com>
+
+Do this:
+1. Clone the repo into a subfolder here.
+2. Read README.md, sfdx-project.json / cumulusci.yml, and the source tree.
+   Tell me what the repo is and which deploy mechanism you'll use.
+3. Make sure `sf` (and `cci` if needed) are installed; if not, stop and tell me.
+4. Confirm the target org before touching it:
+   - Run `sf org display --target-org <alias>` WITHOUT printing the access token
+     (prefer `--json` and surface only alias, username, orgId, instanceUrl,
+     connectedStatus). If a temp "show secrets" env var is set, don't echo the token.
+   - If it errors with NamedOrgNotFoundError / not authorized: do NOT substitute a
+     similarly-named org even if the CLI suggests one. Run
+     `sf org login web --alias <alias> --instance-url <login url for my Login type>`,
+     then PAUSE and tell me to finish the browser login before continuing.
+   - Re-run the display, verify Connected, and if I gave an Expected Org Id, assert
+     it matches EXACTLY. On any mismatch, stop and ask — never deploy.
+5. Run a validate/dry-run deploy and show me the plan.
+6. Deploy. (Once the org is confirmed in step 4, you are pre-approved to run the
+   metadata deploy; data loads/deletes still require my explicit approval.)
+7. Do EVERY post-deploy step the README calls for — permission sets, feature
+   toggles, sample data, field/config that isn't on a layout, activation order.
+   List anything you cannot automate so I can do it by hand.
+8. Verify the deploy succeeded and give me a short summary of what changed and
+   what's left for me to do.
+
+Stop and ask me before anything destructive or anything that loads/deletes data.
 
 ---
 
