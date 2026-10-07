@@ -1,4 +1,4 @@
-# RLM DocGen — Ramp Quotes & Usage-Based Products
+# RLM DocGen - Ramp Quotes & Usage-Based Products
 
 Salesforce Revenue Cloud (RLM) document generation for ramp quotes and usage-based products. Deploy this SFDX project to add a "Generate Ramp Proposal" Quick Action to your Quote page that produces a formatted PDF proposal using Salesforce Document Generation.
 
@@ -43,7 +43,7 @@ This deploys:
 2. Create a new template named exactly **`RLM Ramp Deal Proposal`**
 3. Upload your `.docx` file with the merge fields listed in the Merge Field Reference below
 4. Set the template's **Object** to `Quote`
-5. If prompted to map an Integration Procedure, you may do so for the standard "Generate Document" button — it does not affect the custom Apex flow
+5. If prompted to map an Integration Procedure, you may do so for the standard "Generate Document" button - it does not affect the custom Apex flow
 
 > **Template name mismatch?** If you use a different template name, update the Custom Label: Setup → Custom Labels → `RlmDocGenTemplateName` → Edit value.
 
@@ -64,7 +64,7 @@ This deploys:
 
 ---
 
-## How to Extend — Adding New Fields
+## How to Extend - Adding New Fields
 
 The key rule: **fields render if and only if they exist in the `tokenData` map in Apex AND as a merge field in the `.docx` template.**
 
@@ -72,45 +72,45 @@ The Integration Procedure wired to the Document Template in Setup is used by the
 
 ### Adding a new header field
 
-**Step 1** — In `RlmRampTokenAssembler.cls`, add to the Quote SOQL query:
+**Step 1** - In `RlmRampTokenAssembler.cls`, add to the Quote SOQL query:
 ```apex
 SELECT ..., MyNewField__c FROM Quote WHERE Id = :quoteId
 ```
 
-**Step 2** — Add the key to the `tokenData` map:
+**Step 2** - Add the key to the `tokenData` map:
 ```apex
 tokenData.put('MyNewField', q.MyNewField__c != null ? String.valueOf(q.MyNewField__c) : '');
 ```
 
-**Step 3** — Add `{{MyNewField}}` merge field to your `.docx` template.
+**Step 3** - Add `{{MyNewField}}` merge field to your `.docx` template.
 
 ### Adding a new per-line field
 
-**Step 1** — Add the field to the `QuoteLineItem` SOQL:
+**Step 1** - Add the field to the `QuoteLineItem` SOQL:
 ```apex
 SELECT ..., MyLineField__c FROM QuoteLineItem WHERE QuoteId = :quoteId
 ```
 
-**Step 2** — Add to the `linesList.add(...)` map in the segment loop:
+**Step 2** - Add to the `linesList.add(...)` map in the segment loop:
 ```apex
 'MyLineField' => qli.MyLineField__c != null ? String.valueOf(qli.MyLineField__c) : ''
 ```
 
-**Step 3** — Add `{{MyLineField}}` inside the `{Line}` repeating section of your template.
+**Step 3** - Add `{{MyLineField}}` inside the `{Line}` repeating section of your template.
 
 ### Adding a new usage line field
 
-**Step 1** — Add the field to the `ProductUsageGrant` SOQL:
+**Step 1** - Add the field to the `ProductUsageGrant` SOQL:
 ```apex
 SELECT ..., MyUsageField__c FROM ProductUsageGrant WHERE Status = 'Active'
 ```
 
-**Step 2** — Add to the `usageLines.add(...)` map:
+**Step 2** - Add to the `usageLines.add(...)` map:
 ```apex
 'MyUsageField' => pug.MyUsageField__c != null ? String.valueOf(pug.MyUsageField__c) : ''
 ```
 
-**Step 3** — Add `{{MyUsageField}}` inside the `{UsageLines}` repeating section of your template.
+**Step 3** - Add `{{MyUsageField}}` inside the `{UsageLines}` repeating section of your template.
 
 ---
 
@@ -169,9 +169,9 @@ The IP-driven flow (standard "Generate Document" button) collects data declarati
 
 ## Further Customizations
 
-- **Negotiate Grant/Overage Modal** — the `rlmUsageGrantSummary` component includes hooks for a negotiation modal (to set `QuoteLineRateCardEntry` / `QuotLineItmUsersrcGrant` overrides). The modal component itself is not included in this package; see the Klaviyo-262 reference project for an implementation example.
-- **Non-ramp single-page quote** — if your quotes don't use `QuoteLineGroup`, the `RampSegments` array will be empty. You can adapt the template to render a flat line item table instead, or add a non-ramp `Line` list at the header level in `assembleTokenData()`.
-- **Multiple templates** — add additional Custom Labels and controller entry points to support separate templates for, e.g., order proposals vs. quote proposals.
+- **Negotiate Grant/Overage Modal** - the `rlmUsageGrantSummary` component includes hooks for a negotiation modal (to set `QuoteLineRateCardEntry` / `QuotLineItmUsersrcGrant` overrides). The modal component itself is not included in this package; see the Klaviyo-262 reference project for an implementation example.
+- **Non-ramp single-page quote** - if your quotes don't use `QuoteLineGroup`, the `RampSegments` array will be empty. You can adapt the template to render a flat line item table instead, or add a non-ramp `Line` list at the header level in `assembleTokenData()`.
+- **Multiple templates** - add additional Custom Labels and controller entry points to support separate templates for, e.g., order proposals vs. quote proposals.
 
 ---
 
