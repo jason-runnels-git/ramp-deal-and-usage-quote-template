@@ -6,7 +6,7 @@ Salesforce Revenue Cloud (RLM) document generation for ramp quotes and usage-bas
 
 ## What This Does
 
-- **Ramp proposal generation**: Produces a `.docx`/PDF deal proposal from a Quote with ramp segments (`QuoteLineGroup` records), including per-segment line items, subtotals, and usage grant summaries.
+- **Ramp proposal generation**: Produces a `.docx`/PDF deal proposal from a Quote with ramp segments (`QuoteLineGroup` records). Generates a dynamic table per ramp segment showing the products, quantities, pricing, and subtotal for that period. For quotes that include usage-based anchor products, generates a separate dynamic table per segment showing negotiated usage details - included grant quantities, overage rates, billing frequency, and validity period.
 - **Usage wallet preview**: A live component on the Quote record page that shows included usage grants and overage rates for anchor products (non-ramp quotes).
 
 ---
